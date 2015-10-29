@@ -18,9 +18,17 @@ module Octopus
     @config_env ||= self.rails? ? Rails.env.to_s : 'shards'
   end
 
+  def self.file_name_config=(value)
+    @file_name_config = value
+  end
+
+  def self.file_name_config
+    @file_name_config ||= 'shards.yml'
+  end
+
   def self.config
     @config ||= begin
-      file_name = File.join(Octopus.directory, 'config/shards.yml').to_s
+      file_name = File.join(Octopus.directory, "config/#{file_name_config}").to_s
 
       if File.exist?(file_name) || File.symlink?(file_name)
         config ||= HashWithIndifferentAccess.new(YAML.load(ERB.new(File.read(file_name)).result))[Octopus.env]
