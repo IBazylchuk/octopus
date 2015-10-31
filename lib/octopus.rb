@@ -91,7 +91,7 @@ module Octopus
   end
 
   def self.robust_environment?
-    robust_environments.include? rails_env
+    robust_environments.include? config_env
   end
 
   def self.rails3?
