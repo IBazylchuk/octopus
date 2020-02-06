@@ -169,7 +169,7 @@ module Octopus
       rescue ActiveRecord::StatementInvalid => e
         if connection_bad(e.message)
           Octopus.logger.error "Octopus.logger.error execute: #{e.message}"
-          conn.verify!
+          select_connection.verify!
           retry if (retries += 1) < 3
         else
           raise e
