@@ -51,7 +51,7 @@ module Octopus
           conn.verify!
           retry if (retries += 1) < 3
         else
-          raise e
+          raise e.message
         end
       end
     end
@@ -64,11 +64,11 @@ module Octopus
         conn.insert(arel, name, pk, id_value, sequence_name, binds)
       rescue ActiveRecord::StatementInvalid => e
         if connection_bad(e.message)
-          Octopus.logger.error "Octopus.logger.error execute: #{e.message}"
+          Octopus.logger.error "Octopus.logger.error insert: #{e.message}"
           conn.verify!
           retry if (retries += 1) < 3
         else
-          raise e
+          raise e.message
         end
       end
     end
@@ -82,11 +82,11 @@ module Octopus
         conn.update(arel, name, binds)
       rescue ActiveRecord::StatementInvalid => e
         if connection_bad(e.message)
-          Octopus.logger.error "Octopus.logger.error execute: #{e.message}"
+          Octopus.logger.error "Octopus.logger.error update: #{e.message}"
           conn.verify!
           retry if (retries += 1) < 3
         else
-          raise e
+          raise e.message
         end
       end
     end
@@ -168,11 +168,11 @@ module Octopus
         end
       rescue ActiveRecord::StatementInvalid => e
         if connection_bad(e.message)
-          Octopus.logger.error "Octopus.logger.error execute: #{e.message}"
+          Octopus.logger.error "Octopus.logger.error transaction: #{e.message}"
           select_connection.verify!
           retry if (retries += 1) < 3
         else
-          raise e
+          raise e.message
         end
       end
     end
@@ -288,11 +288,11 @@ module Octopus
         end
       rescue ActiveRecord::StatementInvalid => e
         if connection_bad(e.message)
-          Octopus.logger.error "Octopus.logger.error execute: #{e.message}"
-          conn.verify!
+          Octopus.logger.error "Octopus.logger.error legacy_method_missing_logic: #{e.message}"
+          select_connection.verify!
           retry if (retries += 1) < 3
         else
-          raise e
+          raise e.message
         end
       end
     end
